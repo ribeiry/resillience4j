@@ -15,7 +15,7 @@ public class TesteService {
 
         // Simulando uma exceção verificada
         try {
-            OutputStream outputStream = new FileOutputStream("c:/teste.txt");
+            OutputStream outputStream = new FileOutputStream("f:/teste.txt");
             Writer writer = new OutputStreamWriter(outputStream);
             BufferedWriter br = new BufferedWriter(writer);
 
