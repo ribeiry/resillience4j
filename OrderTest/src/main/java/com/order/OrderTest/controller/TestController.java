@@ -22,10 +22,10 @@ public class TestController {
 
 
     @GetMapping(value = "/up", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<String> findAllOrder()throws IOException{
+    public ResponseEntity<String> findAllOrder(){
 
-        testeService.testFunction();
-        return  ResponseEntity.status(HttpStatus.OK).body("Ok");
+        return testeService.testFunction();
+
 
     }
 }

@@ -1,6 +1,7 @@
 package com.order.OrderTest.service;
 
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -9,32 +10,23 @@ import java.io.*;
 public class TesteService {
 
     @CircuitBreaker(name = "customCircuit", fallbackMethod = "fallbackMethod")
-    public void testFunction() throws IOException {
+    public ResponseEntity<String> testFunction()  {
 
         System.out.println("Executando testFunction...");
 
         // Simulando uma exceção verificada
-        try {
-            OutputStream outputStream = new FileOutputStream("f:/teste.txt");
-            Writer writer = new OutputStreamWriter(outputStream);
-            BufferedWriter br = new BufferedWriter(writer);
-
-            br.write("Escrevendo no arquivo");
-            br.newLine();
-            br.write("Another Line");
-            br.close();
-
+        if (Math.random() > 0.5) {
+            throw new RuntimeException("Falha no serviço externo");
         }
-        catch (IOException e) {
-
-            throw new IOException(e.getMessage());
-        }
+        return ResponseEntity.status(200).body("Resposta do serviço externo");
     }
 
-    public void fallbackMethod(IOException ex) {
+    public ResponseEntity<String> fallbackMethod(Throwable ex) {
 
 
         System.out.println(ex.getMessage());
         System.out.println("Cai no fallbackMethod");
+
+        return ResponseEntity.status(200).body("Response do fallback");
     }
 }
